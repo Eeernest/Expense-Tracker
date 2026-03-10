@@ -1,0 +1,67 @@
+project/
+|
+|__ app/
+|   |__ main.py
+|   |
+|   |__ routers/
+|   |   |__ user_router.py
+|   |   |__ login_router.py
+|   |   |__ permit_router.py
+|   |   |__ expense_router.py
+|   |
+|   |__ dependencies/
+|   |   |__ user_dependency.py
+|   |   |__ login_dependency.py
+|   |   |__ permit_dependency.py
+|   |   |__ expense_dependency.py
+|   |   
+|   |__ services/
+|   |   |__ user_service.py
+|   |   |__ login_service.py
+|   |   |__ permit_service.py
+|   |   |__ expense_service.py
+|   |   
+|   |__ reposiotries/
+|   |   |__ user_repository.py
+|   |   |__ login_repository.py
+|   |   |__ permit_repository.py
+|   |   |__ expense_repository.py
+|   |
+|   |__ schemas/
+|   |   |__ user_schema.py
+|   |   |__ token_schema.py
+|   |   |__ expence_schema,py
+|   |   
+|   |__ models/
+|   |   |__ user_model.py
+|   |   |__ expense_model.py
+|   |
+|   |__ db/
+|   |   |__ database.py
+|   |
+|   |__ core/
+|   |   |__ config.py
+|   |   |__ security.py
+|   |   |__ middleware.py
+|
+|__ tests/
+|   |
+|   |__ test_services/
+|   |   |__ test_user_service.py
+|   |   |__ test_login_service.py
+|   |   |__ test_permit_service.py
+|   |   |__ test_expense_service.py
+|   |
+|   |__ test_repositories/
+|   |   |__ test_user_reposiotry.py
+|   |   |__ test_login_repository.py
+|   |   |__ test_permit_repository.py
+|   |   |__ test_expense_repository.py
+|   |
+|   |__ fixtures/
+|   |   |__ user_fixture.py
+|   |   |__ login_fixture.py
+|   |   |__ permit_fixture.py
+|   |   |__ expense_fixture.py
+|   |
+|   |__ test_database
