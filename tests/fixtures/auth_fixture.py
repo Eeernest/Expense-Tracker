@@ -9,7 +9,9 @@ from app.schemas.user_schema import UserCreate
 
 from tests.test_database import db_session
 
-# repository
+
+#  repository
+
 
 @pytest.fixture
 def fx_repo(db_session):
@@ -41,12 +43,17 @@ def secure():
 
 @pytest.fixture
 def config():
-  return Mock()
+  cfg = Mock()
+  cfg.SECRET_KEY = "secret"
+  cfg.ALGORITHM = "HS256"
+  cfg.ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
+  return cfg
 
 @pytest.fixture
 def repo():
   return Mock()
 
 @pytest.fixture
-def user_service(secure, config, repo):
-  return UserService(secure, config, repo)
+def auth_service(secure, config, repo):
+  return AuthService(secure, config, repo)

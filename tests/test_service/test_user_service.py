@@ -2,7 +2,6 @@ from app.services.user_service import UserService
 from app.models.user_model import UserRole
 from app.schemas.user_schema import UserCreate
 
-from tests.test_database import db_session
 from tests.fixtures.user_fixture import create_data, secure, config, repo, user_service
 
 import pytest
@@ -18,7 +17,7 @@ def test_create_account_success(create_data, secure, repo, user_service):
 
   repo.create_repo.return_value = Mock(
     username="user1",
-    email="user1@example",
+    email="user1@example.com",
     role=UserRole.user
   )
 
