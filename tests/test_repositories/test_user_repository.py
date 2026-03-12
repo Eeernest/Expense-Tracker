@@ -1,10 +1,9 @@
 from tests.fixtures.user_fixture import user_repo, user_data
 from tests.test_database import db_session
 
-from app.repositories.user_repository import UserRepository
-from app.models.user_model import User, UserRole
+from app.models.user_model import UserRole
 
-def test_create_user_repo(user_repo, user_data):
+def test_create_user_repo_success(user_repo, user_data):
   created_user = user_repo.create_repo(user_data)
 
   assert created_user.id is not None
