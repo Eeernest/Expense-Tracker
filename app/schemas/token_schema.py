@@ -5,4 +5,4 @@ class TokenBase(BaseModel):
   token_type: str
 
 class TokenData(BaseModel):
-  id: int
+  user_id: int

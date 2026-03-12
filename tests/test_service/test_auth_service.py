@@ -1,6 +1,3 @@
-from app.core.security import DUMMY_HASH
-from app.schemas.token_schema import TokenBase
-
 import pytest
 from fastapi import HTTPException
 

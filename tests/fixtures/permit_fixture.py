@@ -1,19 +1,20 @@
 from unittest.mock import Mock
 import pytest
 
+from app.repositories.permit_repository import PermitRepository
 from app.repositories.user_repository import UserRepository
-from app.services.user_service import UserService
-from app.services.auth_service import AuthService
+from app.services.permit_service import PermitService
 from app.models.user_model import User, UserRole
-from app.schemas.user_schema import UserCreate
 
 from tests.test_database import db_session
+
+
 
 # repository
 
 @pytest.fixture
-def user_repo(db_session):
-  return UserRepository(db_session)
+def permit_repo(db_session):
+  return PermitRepository(db_session)
 
 @pytest.fixture
 def user_data():
@@ -24,16 +25,12 @@ def user_data():
     role=UserRole.user
   )
 
-# service
-
 @pytest.fixture
-def create_data():
-  return UserCreate(
-    username="user1",
-    email="user1@example.com",
-    password="Password123",
-    role=UserRole.user
-  )
+def created_user(db_session, user_data):
+  repo = UserRepository(db_session)
+  return repo.create_repo(user_data)
+
+# service
 
 @pytest.fixture
 def secure():
@@ -41,12 +38,17 @@ def secure():
 
 @pytest.fixture
 def config():
-  return Mock()
+  cfg = Mock()
+  cfg.SECRET_KEY = "secret"
+  cfg.ALGORITHM = "HS256"
+
+  return cfg
+
 
 @pytest.fixture
 def repo():
   return Mock()
 
 @pytest.fixture
-def user_service(secure, config, repo):
-  return UserService(secure, config, repo)
+def permit_service(secure, config, repo):
+  return PermitService(secure, config, repo)

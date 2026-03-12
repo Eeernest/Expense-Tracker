@@ -18,5 +18,10 @@ class Security:
   
   @staticmethod
   def encode_jwt(to_encode, secret_key, algorithm):
-    encodes = jwt.encode(to_encode, secret_key, algorithm)
-    return encodes
+    encoded = jwt.encode(to_encode, secret_key, algorithm)
+    return encoded
+  
+  @staticmethod
+  def decode_jwt(token, secret_key, algorithm):
+    decoded = jwt.decode(token, secret_key, algorithm)
+    return decoded

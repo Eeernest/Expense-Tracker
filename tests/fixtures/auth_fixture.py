@@ -1,8 +1,8 @@
 from unittest.mock import Mock
 import pytest
 
+from app.repositories.auth_repository import AuthRepository
 from app.repositories.user_repository import UserRepository
-from app.services.user_service import UserService
 from app.services.auth_service import AuthService
 from app.models.user_model import User, UserRole
 from app.schemas.user_schema import UserCreate
@@ -14,8 +14,8 @@ from tests.test_database import db_session
 
 
 @pytest.fixture
-def fx_repo(db_session):
-  return UserRepository(db_session)
+def auth_repo(db_session):
+  return AuthRepository(db_session)
 
 @pytest.fixture
 def user_data():
@@ -25,6 +25,11 @@ def user_data():
     hashed_password="Hashedpassword123",
     role=UserRole.user
   )
+
+@pytest.fixture
+def created_user(db_session, user_data):
+  repo = UserRepository(db_session)
+  return repo.create_repo(user_data)
 
 # service
 
