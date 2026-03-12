@@ -3,7 +3,6 @@ import pytest
 
 from app.repositories.user_repository import UserRepository
 from app.services.user_service import UserService
-from app.services.auth_service import AuthService
 from app.models.user_model import User, UserRole
 from app.schemas.user_schema import UserCreate
 

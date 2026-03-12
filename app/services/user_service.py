@@ -1,7 +1,7 @@
 from app.core.security import Security
 from app.core.config import Config
 from app.models.user_model import User, UserRole
-from app.schemas.user_schema import UserCreate, UserRead
+from app.schemas.user_schema import UserCreate
 from app.repositories.user_repository import UserRepository
 from fastapi import HTTPException
 

@@ -1,4 +1,3 @@
-from app.services.user_service import UserService
 from app.models.user_model import UserRole
 from app.schemas.user_schema import UserCreate
 
