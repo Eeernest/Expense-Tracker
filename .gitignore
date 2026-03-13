@@ -1,13 +1,22 @@
-.env.test
+# env
 .env
-app/__pycache__/main.cpython-314.pyc
-app/__pycache__/main.cpython-314.pyc
-app/dependencies/__pycache__/expense_dependency.cpython-314.pyc
-app/dependencies/__pycache__/permit_dependency.cpython-314.pyc
-app/models/__pycache__/expense_model.cpython-314.pyc
-app/routers/__pycache__/expense_router.cpython-314.pyc
-app/schemas/__pycache__/expense_schema.cpython-314.pyc
-app/services/__pycache__/expense_service.cpython-314.pyc
-tests/fixtures/__pycache__/expense_fixture.cpython-314.pyc
-tests/test_repositories/__pycache__/test_expense_repository.cpython-314-pytest-9.0.2.pyc
-tests/test_service/__pycache__/test_expense_service.cpython-314-pytest-9.0.2.pyc
+.env.*
+
+# python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# pytest
+.pytest_cache/
+
+# coverage
+.coverage
+htmlcov/
+
+# vscode
+.vscode/
+
+# mypy
+.mypy_cache/
