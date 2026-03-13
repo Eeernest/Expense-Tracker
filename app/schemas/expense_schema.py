@@ -5,6 +5,6 @@ class ExpenseBase(BaseModel):
   description: str
   amount: int
 
-class ExpenseCreate(ExpenseBase):
+class ExpenseRead(ExpenseBase):
+  id: int
   category: ExpenseCategory
-  user_id: int
