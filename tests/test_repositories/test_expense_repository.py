@@ -10,7 +10,7 @@ def test_add_expense_success(expense_repo, expense_data):
   assert created_expense.description == "rent"
   assert created_expense.category == ExpenseCategory.housing
 
-def test_view_all(expense_repo):
+def test_view_all_success(expense_repo):
   for i in range(6):
     list = expense_repo.add_expense(
       Expense(
