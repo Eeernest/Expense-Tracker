@@ -15,7 +15,7 @@ class Expense(Base):
   __tablename__ = "expense"
 
   id = Column(Integer, primary_key=True)
-  description = Column(String, nullable=False, index=True, unique=True)
+  description = Column(String, nullable=False, index=True)
   amount = Column(Integer, nullable=False, index=True)
   date = Column(DateTime, default=lambda: datetime.now(timezone.utc), index=True)
   category = Column(Enum(ExpenseCategory), index=True, nullable=False)
