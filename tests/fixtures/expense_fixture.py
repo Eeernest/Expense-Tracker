@@ -5,7 +5,7 @@ from app.repositories.expense_repository import ExpenseRepository
 from app.services.expense_service import ExpenseService
 from app.models.expense_model import Expense, ExpenseCategory
 from app.models.user_model import User
-from app.schemas.expense_schema import ExpenseCreate
+from app.schemas.expense_schema import ExpenseBase
 
 from tests.test_database import db_session
 
@@ -28,11 +28,9 @@ def expense_data():
 
 @pytest.fixture
 def create_data():
-  return ExpenseCreate(
+  return ExpenseBase(
      description="rent",
-     amount=1000,
-     category=ExpenseCategory.housing,
-     user_id=1
+     amount=1000
   )
 
 @pytest.fixture
