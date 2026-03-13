@@ -24,6 +24,24 @@ def expense_data():
     user_id=1
   )
 
+@pytest.fixture
+def expense_list(expense_repo):
+  expenses = []
+
+  for i in range(6):
+    expense = expense_repo.add_expense(
+      Expense(
+        description="rent",
+        amount=1000,
+        category=ExpenseCategory.housing,
+        user_id=1
+      )
+    )
+
+    expenses.append(expense)
+  
+  return expenses
+
 # service
 
 @pytest.fixture
