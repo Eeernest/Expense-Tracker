@@ -23,3 +23,5 @@ htmlcov/
 
 # alembic
 alembic_tmp/
+tests.zip
+app.zip
