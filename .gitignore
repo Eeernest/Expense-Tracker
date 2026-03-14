@@ -20,3 +20,6 @@ htmlcov/
 
 # mypy
 .mypy_cache/
+
+# alembic
+alembic_tmp/
