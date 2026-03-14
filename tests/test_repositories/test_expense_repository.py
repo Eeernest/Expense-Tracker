@@ -12,18 +12,18 @@ def test_add_expense_success(expense_repo, expense_data):
 
 def test_view_all_success(expense_repo, expense_list):
   user_id = 1
-  list = expense_repo.view_all(user_id, 0, 10)
+  lists = expense_repo.view_all(user_id, 0, 10)
 
-  assert len(list) == 6
+  assert len(lists) == 6
 
 def test_view_all_offset(expense_repo, expense_list):
   user_id = 1
-  expense_list = expense_repo.view_all(user_id, 2, 10)
+  lists = expense_repo.view_all(user_id, 2, 10)
 
-  assert len(expense_list) == 4
+  assert len(lists) == 4
 
 def test_view_all_limit(expense_repo, expense_list):
   user_id = 1
-  expense_list = expense_repo.view_all(user_id, 0, 3)
+  lists = expense_repo.view_all(user_id, 0, 3)
 
-  assert len(expense_list) == 3
+  assert len(lists) == 3
