@@ -47,3 +47,23 @@ def test_no_ammount(repo, user, exp_service):
   assert "Amount" in str(exc.value)
 
   repo.add_expense.assert_not_called()
+
+def test_view_all_success(repo, user, expense_data, exp_service):
+  repo.view_all.return_value = [expense_data, expense_data]
+
+  lists = exp_service.view_all(user, 0, 2)
+
+  assert len(lists) == 2
+  assert lists[0].user_id == 1
+  assert lists[0].description == "rent"
+
+  repo.view_all.assert_called_once()
+
+def test_view_all_empty_list(repo, user, exp_service):
+  repo.view_all.return_value = []
+
+  lists = exp_service.view_all(user, 0, 2)
+
+  assert lists == []
+
+  repo.view_all.assert_called_once()
