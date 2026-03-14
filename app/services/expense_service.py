@@ -25,5 +25,5 @@ class ExpenseService:
 
     return self.repo.add_expense(new_expense)
 
-  def view_all(self, user_id: User, offset: int, limit: int) -> list[Expense]:
-    return self.repo.view_all(user_id, offset, limit)
+  def view_all(self, user: User, offset: int, limit: int) -> list[Expense]:
+    return self.repo.view_all(user.id, offset, limit)
