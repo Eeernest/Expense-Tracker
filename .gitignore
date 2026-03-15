@@ -25,3 +25,4 @@ htmlcov/
 alembic_tmp/
 tests.zip
 app.zip
+migrations/versions/8b55c4f25242_fix_expense_replace_integer_for_float_.py
