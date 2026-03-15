@@ -1,9 +1,10 @@
 from app.models.expense_model import Expense, ExpenseCategory
 from app.models.user_model import User
-from app.schemas.expense_schema import ExpenseBase
+from app.schemas.expense_schema import ExpenseBase, ExpenseDate
 from app.repositories.expense_repository import ExpenseRepository
 
 from fastapi import HTTPException
+from datetime import datetime, timedelta
 
 class ExpenseService:
   def __init__(self, repo: ExpenseRepository):
@@ -25,5 +26,26 @@ class ExpenseService:
 
     return self.repo.add_expense(new_expense)
 
-  def view_all(self, user: User, offset: int, limit: int) -> list[Expense]:
-    return self.repo.view_all(user.id, offset, limit)
+  def view_all(self, user: User, offset: int, limit: int, category: ExpenseCategory | None = None) -> list[Expense]:
+    return self.repo.view_all(user.id, offset, limit, category)
+  
+  def view_date(self, user: User, date: ExpenseDate, offset: int, limit: int, category: ExpenseCategory | None = None) -> list[Expense]:
+    date_now = datetime.now()
+
+    if date == ExpenseDate.today:
+      start_date = datetime(date_now.year, date_now.month, date_now.day)
+      end_date = start_date + timedelta(days=1)
+
+    elif date == ExpenseDate.seven_days:
+      start_date = date_now - timedelta(days=7)
+      end_date = date_now
+
+    elif date == ExpenseDate.thirty_days:
+      start_date = date_now - timedelta(days=30)
+      end_date = date_now
+
+    elif date == ExpenseDate.ninety_days:
+      start_date = date_now - timedelta(days=90)
+      end_date = date_now
+
+    return self.repo.view_date(user.id, start_date, end_date, offset, limit, category)
