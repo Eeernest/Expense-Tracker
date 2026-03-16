@@ -9,6 +9,8 @@ from app.schemas.expense_schema import ExpenseBase
 
 from tests.test_database import db_session
 
+from datetime import datetime, timedelta
+
 # repository
 
 @pytest.fixture
@@ -38,6 +40,8 @@ def expense_list(expense_repo):
       )
     )
 
+    expenses.append(expense)
+
     expense = expense_repo.add_expense(
       Expense(
         description="dinner",
@@ -49,6 +53,63 @@ def expense_list(expense_repo):
 
     expenses.append(expense)
   
+  return expenses
+
+@pytest.fixture
+def expense_dates(expense_repo):
+  expenses = []
+
+  base_date = datetime(2026, 3, 1)
+
+  for i in range(5):
+    expense = expense_repo.add_expense(
+      Expense(
+        description="rent",
+        amount=1000,
+        category=ExpenseCategory.housing,
+        date=base_date - timedelta(days=90),
+        user_id=1
+      )
+    )
+
+    expenses.append(expense)
+
+    expense = expense_repo.add_expense(
+      Expense(
+        description="food",
+        amount=500,
+        category=ExpenseCategory.food,
+        date=base_date - timedelta(days=30),
+        user_id=1
+      )
+    )
+
+    expenses.append(expense)
+
+    expense = expense_repo.add_expense(
+      Expense(
+        description="dinner",
+        amount=200,
+        category=ExpenseCategory.entertainment,
+        date=base_date - timedelta(days=7),
+        user_id=1
+      )
+    )
+
+    expenses.append(expense)
+
+    expense = expense_repo.add_expense(
+      Expense(
+        description="dentist",
+        amount=1000,
+        category=ExpenseCategory.healthcare,
+        date=base_date,
+        user_id=1
+      )
+    )
+
+    expenses.append(expense)
+
   return expenses
 
 # service
