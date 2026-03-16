@@ -3,7 +3,6 @@ from app.models.expense_model import Expense, ExpenseCategory
 from tests.fixtures.expense_fixture import expense_data, create_data, user, repo, exp_service, category, date
 import pytest
 from fastapi import HTTPException
-from datetime import datetime, timedelta
 
 def test_add_expense_success(repo, expense_data, exp_service, category, create_data, user):
   repo.add_expense.return_value = expense_data
