@@ -30,35 +30,6 @@ def expense_data():
 def expense_list(expense_repo):
   expenses = []
 
-  for i in range(5):
-    expense = expense_repo.add_expense(
-      Expense(
-        description="rent",
-        amount=1000,
-        category=ExpenseCategory.housing,
-        user_id=1
-      )
-    )
-
-    expenses.append(expense)
-
-    expense = expense_repo.add_expense(
-      Expense(
-        description="dinner",
-        amount=1000,
-        category=ExpenseCategory.entertainment,
-        user_id=1
-      )
-    )
-
-    expenses.append(expense)
-  
-  return expenses
-
-@pytest.fixture
-def expense_dates(expense_repo):
-  expenses = []
-
   base_date = datetime(2026, 3, 1)
 
   for i in range(5):
