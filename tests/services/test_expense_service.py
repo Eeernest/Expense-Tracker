@@ -1,30 +1,26 @@
 from app.models.expense_model import Expense, ExpenseCategory
-from app.schemas.expense_schema import ExpenseDate
 
-from tests.fixtures.expense_fixture import expense_data, create_data, user, repo, exp_service
+from tests.fixtures.expense_fixture import expense_data, create_data, user, repo, exp_service, category, date
 import pytest
 from fastapi import HTTPException
 from datetime import datetime, timedelta
 
-def test_add_expense_success(expense_data, create_data, user, repo, exp_service):
+def test_add_expense_success(repo, expense_data, exp_service, category, create_data, user):
   repo.add_expense.return_value = expense_data
-  category = ExpenseCategory.housing
 
-  added_exp = exp_service.add_expense(category, create_data, user)
+  result = exp_service.add_expense(category, create_data, user)
 
-  assert added_exp.description == "rent"
-  assert added_exp.category == ExpenseCategory.housing
-  assert added_exp.user_id is not None
+  assert result.description == "rent"
+  assert result.category == ExpenseCategory.housing
+  assert result.user_id is not None
 
   repo.add_expense.assert_called_once()
 
-def test_no_description(repo, user, exp_service):
+def test_no_description(repo, exp_service, category, user):
   data = Expense(
     description=None,
     amount=1000
   )
-
-  category = ExpenseCategory.housing
 
   with pytest.raises(HTTPException) as exc:
     exp_service.add_expense(category, data, user)
@@ -34,13 +30,11 @@ def test_no_description(repo, user, exp_service):
 
   repo.add_expense.assert_not_called()
 
-def test_no_ammount(repo, user, exp_service):
+def test_no_ammount(exp_service, category, user, repo):
   data = Expense(
     description="rent",
     amount=None
   )
-
-  category = ExpenseCategory.housing
 
   with pytest.raises(HTTPException) as exc:
     exp_service.add_expense(category, data, user)
@@ -50,57 +44,51 @@ def test_no_ammount(repo, user, exp_service):
 
   repo.add_expense.assert_not_called()
 
-def test_view_all_success(repo, user, expense_data, exp_service):
+def test_view_all_success(repo, expense_data, exp_service, user):
   repo.view_all.return_value = [expense_data, expense_data]
 
-  lists = exp_service.view_all(user, 0, 2)
+  result = exp_service.view_all(user, 0, 2)
 
-  assert len(lists) == 2
-  assert lists[0].user_id == 1
-  assert lists[0].description == "rent"
+  assert len(result) == 2
+  assert result[0].user_id == 1
+  assert result[0].description == "rent"
 
   repo.view_all.assert_called_once()
 
-def test_view_all_categoty(repo, user, expense_data, exp_service):
+def test_view_all_categoty(repo, expense_data, exp_service, user, category):
   repo.view_all.return_value = [expense_data]
 
-  category = ExpenseCategory.housing
+  result = exp_service.view_all(user, 0, 1, category)
 
-  lists = exp_service.view_all(user, 0, 1, category)
-
-  assert len(lists) == 1
-  assert lists[0].category == ExpenseCategory.housing
+  assert len(result) == 1
+  assert result[0].category == ExpenseCategory.housing
 
   repo.view_all.assert_called_once()
 
-def test_view_all_empty_list(repo, user, exp_service):
+def test_view_all_empty_list(repo, exp_service, user):
   repo.view_all.return_value = []
 
-  lists = exp_service.view_all(user, 0, 2)
+  result = exp_service.view_all(user, 0, 2)
 
-  assert lists == []
+  assert result == []
 
   repo.view_all.assert_called_once()
 
-def test_view_date_success(repo, user, exp_service, expense_data):
+def test_view_date_success(repo, date, expense_data, exp_service, user):
   repo.view_date.return_value = [expense_data]
 
-  date = ExpenseDate.ninety_days
+  result = exp_service.view_date(user, date, 0, 10)
 
-  lists = exp_service.view_date(user, date, 0, 10)
-
-  assert len(lists) == 1
-  assert lists[0].category == ExpenseCategory.housing
+  assert len(result) == 1
+  assert result[0].category == ExpenseCategory.housing
 
   repo.view_date.assert_called_once()
 
-def test_view_empty_list(repo, user, exp_service):
+def test_view_empty_list(repo, date, exp_service, user):
   repo.view_date.return_value = []
 
-  date = ExpenseDate.ninety_days
+  result = exp_service.view_date(user, date, 0, 10)
 
-  lists = exp_service.view_date(user, date, 0, 10)
-
-  assert lists == []
+  assert result == []
 
   repo.view_date.assert_called_once()
