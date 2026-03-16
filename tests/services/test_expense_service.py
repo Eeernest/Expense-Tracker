@@ -59,6 +59,18 @@ def test_view_all_success(repo, user, expense_data, exp_service):
 
   repo.view_all.assert_called_once()
 
+def test_view_all_categoty(repo, user, expense_data, exp_service):
+  repo.view_all.return_value = [expense_data]
+
+  category = ExpenseCategory.housing
+
+  lists = exp_service.view_all(user, 0, 1, category)
+
+  assert len(lists) == 1
+  assert lists[0].category == ExpenseCategory.housing
+
+  repo.view_all.assert_called_once_with(user.id, 0, 1, category)
+
 def test_view_all_empty_list(repo, user, exp_service):
   repo.view_all.return_value = []
 
