@@ -28,12 +28,21 @@ def expense_data():
 def expense_list(expense_repo):
   expenses = []
 
-  for i in range(6):
+  for i in range(5):
     expense = expense_repo.add_expense(
       Expense(
         description="rent",
         amount=1000,
         category=ExpenseCategory.housing,
+        user_id=1
+      )
+    )
+
+    expense = expense_repo.add_expense(
+      Expense(
+        description="dinner",
+        amount=1000,
+        category=ExpenseCategory.entertainment,
         user_id=1
       )
     )
