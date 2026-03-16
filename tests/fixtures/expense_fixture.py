@@ -5,7 +5,7 @@ from app.repositories.expense_repository import ExpenseRepository
 from app.services.expense_service import ExpenseService
 from app.models.expense_model import Expense, ExpenseCategory
 from app.models.user_model import User
-from app.schemas.expense_schema import ExpenseBase
+from app.schemas.expense_schema import ExpenseBase, ExpenseDate
 
 from tests.test_database import db_session
 
@@ -105,3 +105,11 @@ def repo():
 @pytest.fixture
 def exp_service(repo):
   return ExpenseService(repo)
+
+@pytest.fixture
+def category():
+  return ExpenseCategory.housing
+
+@pytest.fixture
+def date():
+  return ExpenseDate.ninety_days
