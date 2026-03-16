@@ -22,7 +22,7 @@ def add_expense(
 def view_expense(
   service: ExpenseDep,
   user: CurrentUserDep,
-  date: ExpenseDate,
+  date: ExpenseDate | None = None,
   offset: int = 0,
   limit: Annotated[int, Query(le=100)] = 100,
   category: ExpenseCategory | None = None
