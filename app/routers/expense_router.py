@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Query
 from app.models.expense_model import ExpenseCategory
-from app.schemas.expense_schema import ExpenseBase, ExpenseRead, ExpenseDate
+from app.schemas.expense_schema import ExpenseBase, ExpenseRead, ExpenseDate, ExpenseEdit
 from app.dependencies.expense_dependency import ExpenseDep
 
 from app.dependencies.permit_dependency import CurrentUserDep
@@ -31,3 +31,14 @@ def view_expense(
     return service.view_date(user, date, offset, limit, category)
   
   return service.view_all(user, offset, limit, category)
+
+@router.patch("/expenses/", response_model=ExpenseRead)
+def edit(
+  service: ExpenseDep,
+  user: CurrentUserDep,
+  expense: ExpenseEdit,
+  description: str | None = None,
+  amount: float | None = None,
+  category: ExpenseCategory | None = None
+):
+  return service.edit(user, expense, description, amount, category)
