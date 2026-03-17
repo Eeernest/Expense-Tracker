@@ -33,7 +33,7 @@ def expense_list(expense_repo):
   base_date = datetime(2026, 3, 1)
 
   for i in range(5):
-    expense = expense_repo.add_expense(
+    expense = expense_repo.save(
       Expense(
         description="rent",
         amount=1000,
@@ -45,7 +45,7 @@ def expense_list(expense_repo):
 
     expenses.append(expense)
 
-    expense = expense_repo.add_expense(
+    expense = expense_repo.save(
       Expense(
         description="food",
         amount=500,
@@ -57,7 +57,7 @@ def expense_list(expense_repo):
 
     expenses.append(expense)
 
-    expense = expense_repo.add_expense(
+    expense = expense_repo.save(
       Expense(
         description="dinner",
         amount=200,
@@ -69,7 +69,7 @@ def expense_list(expense_repo):
 
     expenses.append(expense)
 
-    expense = expense_repo.add_expense(
+    expense = expense_repo.save(
       Expense(
         description="dentist",
         amount=1000,

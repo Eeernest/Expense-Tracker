@@ -5,7 +5,7 @@ import pytest
 from fastapi import HTTPException
 
 def test_add_expense_success(repo, expense_data, exp_service, category, create_data, user):
-  repo.add_expense.return_value = expense_data
+  repo.save.return_value = expense_data
 
   result = exp_service.add_expense(category, create_data, user)
 
@@ -13,7 +13,7 @@ def test_add_expense_success(repo, expense_data, exp_service, category, create_d
   assert result.category == ExpenseCategory.housing
   assert result.user_id is not None
 
-  repo.add_expense.assert_called_once()
+  repo.save.assert_called_once()
 
 def test_no_description(repo, exp_service, category, user):
   data = Expense(
@@ -27,7 +27,7 @@ def test_no_description(repo, exp_service, category, user):
   assert exc.value.status_code == 422
   assert "Description" in str(exc.value)
 
-  repo.add_expense.assert_not_called()
+  repo.save.assert_not_called()
 
 def test_no_ammount(exp_service, category, user, repo):
   data = Expense(
@@ -41,7 +41,7 @@ def test_no_ammount(exp_service, category, user, repo):
   assert exc.value.status_code == 422
   assert "Amount" in str(exc.value)
 
-  repo.add_expense.assert_not_called()
+  repo.save.assert_not_called()
 
 def test_view_all_success(repo, expense_data, exp_service, user):
   repo.view_all.return_value = [expense_data, expense_data]

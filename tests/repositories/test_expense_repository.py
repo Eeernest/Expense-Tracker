@@ -6,7 +6,7 @@ from app.models.expense_model import Expense, ExpenseCategory
 from datetime import datetime, timedelta
 
 def test_add_expense_success(expense_repo, expense_data):
-  ressult = expense_repo.add_expense(expense_data)
+  ressult = expense_repo.save(expense_data)
 
   assert ressult.id is not None
   assert ressult.description == "rent"
