@@ -5,6 +5,7 @@ from app.repositories.expense_repository import ExpenseRepository
 
 from fastapi import HTTPException
 from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
 class ExpenseService:
   def __init__(self, repo: ExpenseRepository):
@@ -47,6 +48,10 @@ class ExpenseService:
     elif date == ExpenseDate.ninety_days:
       start_date = date_now - timedelta(days=90)
       end_date = date_now
+
+    elif date == ExpenseDate.current_month:
+      start_date = datetime(date_now.year, date_now.month, 1)
+      end_date = start_date + relativedelta(monhs=1)
 
     return self.repo.view_date(user.id, start_date, end_date, offset, limit, category)
 
