@@ -1,6 +1,6 @@
 from app.models.expense_model import Expense, ExpenseCategory
 from app.models.user_model import User
-from app.schemas.expense_schema import ExpenseBase, ExpenseDate
+from app.schemas.expense_schema import ExpenseBase, ExpenseDate, ExpenseEdit
 from app.repositories.expense_repository import ExpenseRepository
 
 from fastapi import HTTPException
@@ -49,3 +49,30 @@ class ExpenseService:
       end_date = date_now
 
     return self.repo.view_date(user.id, start_date, end_date, offset, limit, category)
+
+  def edit(
+      self,
+      user: User,
+      expense: ExpenseEdit,
+      description: str | None = None,
+      amount: float | None = None,
+      category: ExpenseCategory | None = None
+  ):
+    user_expense = self.repo.check_user_expense(user.id, expense.expense_id)
+
+    if user_expense is None:
+      raise HTTPException(status_code=404, detail="Expense not found")
+    
+    if (description is None) and (amount is None) and (category is None):
+      raise HTTPException(status_code=422, detail="At least one field is required")
+    
+    if description is not None:
+      user_expense.description = description
+    
+    if amount is not None:
+      user_expense.amount = amount
+    
+    if category is not None:
+      user_expense.category = category
+
+    return self.repo.save(user_expense)
