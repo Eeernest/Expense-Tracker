@@ -51,7 +51,7 @@ class ExpenseService:
 
     elif date == ExpenseDate.current_month:
       start_date = datetime(date_now.year, date_now.month, 1)
-      end_date = start_date + relativedelta(monhs=1)
+      end_date = start_date + relativedelta(months=1)
 
     return self.repo.view_date(user.id, start_date, end_date, offset, limit, category)
 
