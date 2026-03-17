@@ -1,6 +1,7 @@
 from app.models.expense_model import Expense, ExpenseCategory
+from app.schemas.expense_schema import ExpenseEdit
 
-from tests.fixtures.expense_fixture import expense_data, create_data, user, repo, exp_service, category, date
+from tests.fixtures.expense_fixture import expense_data, create_data, user, repo, exp_service, category, date, edit
 import pytest
 from fastapi import HTTPException
 
@@ -91,3 +92,38 @@ def test_view_empty_list(repo, date, exp_service, user):
   assert result == []
 
   repo.view_date.assert_called_once()
+
+def test_edit_success(repo, expense_data, exp_service, user, edit):
+  repo.check_user_expense.return_value = expense_data
+  repo.save.return_value = expense_data
+
+  result = exp_service.edit(user, edit, "apples", 100, ExpenseCategory.food)
+
+  assert result.description == "apples"
+  assert result.amount == 100
+  assert result.category == ExpenseCategory.food
+
+  repo.check_user_expense.assert_called_once()
+  repo.save.assert_called_once()
+
+def test_edit_no_expense(repo, exp_service, user, edit):
+  repo.check_user_expense.return_value = None
+  
+  with pytest.raises(HTTPException) as exc:
+    exp_service.edit(user, edit, "apples", 100, ExpenseCategory.food)
+
+  assert exc.value.status_code == 404
+  assert "Expense" in str(exc.value)
+
+  repo.check_user_expense.assert_called_once()
+
+def test_edit_no_field(repo, expense_data, exp_service, user, edit):
+  repo.check_user_expense.return_value = expense_data
+
+  with pytest.raises(HTTPException) as exc:
+    exp_service.edit(user, edit)
+
+  assert exc.value.status_code == 422
+  assert "field" in str(exc.value)
+
+  repo.check_user_expense.assert_called_once()
