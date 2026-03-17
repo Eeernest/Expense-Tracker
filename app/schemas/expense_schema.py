@@ -18,3 +18,6 @@ class ExpenseDate(str, enum.Enum):
   seven_days = "last 7 days"
   thirty_days = "last 30 days"
   ninety_days = "last 90 days"
+
+class ExpenseEdit(BaseModel):
+  expense_id: int
