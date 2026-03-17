@@ -10,10 +10,10 @@ def test_login_success(repo, secure, auth_service, user_data):
   secure.verify_password.return_value = True
   secure.encode_jwt.return_value = "jwt_token"
 
-  token = auth_service.login("user1", "Password123")
+  result = auth_service.login("user1", "Password123")
 
-  assert token.access_token == "jwt_token"
-  assert token.token_type == "bearer"
+  assert result.access_token == "jwt_token"
+  assert result.token_type == "bearer"
 
   repo.check_username.assert_called_once()
   secure.verify_password.assert_called_once()
