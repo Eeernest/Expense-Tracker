@@ -8,10 +8,6 @@ from app.models.user_model import User, UserRole
 
 from tests.test_database import db_session
 
-
-
-# repository
-
 @pytest.fixture
 def permit_repo(db_session):
   return PermitRepository(db_session)
@@ -29,8 +25,6 @@ def user_data():
 def created_user(db_session, user_data):
   repo = UserRepository(db_session)
   return repo.create_repo(user_data)
-
-# service
 
 @pytest.fixture
 def secure():
