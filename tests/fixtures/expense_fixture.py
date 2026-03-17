@@ -5,7 +5,7 @@ from app.repositories.expense_repository import ExpenseRepository
 from app.services.expense_service import ExpenseService
 from app.models.expense_model import Expense, ExpenseCategory
 from app.models.user_model import User
-from app.schemas.expense_schema import ExpenseBase, ExpenseDate
+from app.schemas.expense_schema import ExpenseBase, ExpenseDate, ExpenseEdit
 
 from tests.test_database import db_session
 
@@ -113,3 +113,7 @@ def category():
 @pytest.fixture
 def date():
   return ExpenseDate.ninety_days
+
+@pytest.fixture
+def edit():
+  return ExpenseEdit(expense_id=1)
