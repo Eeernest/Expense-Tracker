@@ -83,3 +83,10 @@ def test_view_date_category(expense_repo, expense_list):
   assert all(exp.category != ExpenseCategory.housing for exp in ressult)
   assert all(exp.category != ExpenseCategory.food for exp in ressult)
   assert all(exp.category != ExpenseCategory.entertainment for exp in ressult)
+
+def test_check_user_expense_success(expense_repo, expense_data):
+  expense_repo.save(expense_data)
+  result = expense_repo.check_user_expense(expense_data.user_id, expense_data.id)
+
+  assert result.user_id == 1
+  assert result.id == 1
