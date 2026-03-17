@@ -9,7 +9,7 @@ class ExpenseRepository:
   def __init__(self, session: Session):
     self.session = session
 
-  def add_expense(self, expense: Expense) -> Expense:
+  def save(self, expense: Expense) -> Expense:
     self.session.add(expense)
     self.session.commit()
     self.session.refresh(expense)
