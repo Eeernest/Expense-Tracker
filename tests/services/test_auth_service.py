@@ -3,7 +3,7 @@ from fastapi import HTTPException
 
 from tests.fixtures.auth_fixture import secure, config, repo, auth_service, user_data
 
-def test_login_success(secure, repo, auth_service, user_data):
+def test_login_success(repo, secure, auth_service, user_data):
   user_data.id = 1
 
   repo.check_username.return_value = user_data
@@ -19,7 +19,7 @@ def test_login_success(secure, repo, auth_service, user_data):
   secure.verify_password.assert_called_once()
   secure.encode_jwt.assert_called_once()
 
-def test_login_username_failure(secure, repo, auth_service):
+def test_login_username_failure(repo, secure, auth_service):
   repo.check_username.return_value = None
   secure.verify_password.return_value = False
 
@@ -32,7 +32,7 @@ def test_login_username_failure(secure, repo, auth_service):
   repo.check_username.assert_called_once()
   secure.verify_password.assert_called_once()
 
-def test_login_password_failure(secure, repo, auth_service, user_data):
+def test_login_password_failure(repo, secure, auth_service, user_data):
   repo.check_username.return_value = user_data
   secure.verify_password.return_value = False
 
