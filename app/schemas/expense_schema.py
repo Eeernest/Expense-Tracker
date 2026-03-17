@@ -6,7 +6,7 @@ from app.models.expense_model import ExpenseCategory
 
 class ExpenseBase(BaseModel):
   description: str
-  amount: int
+  amount: float
 
 class ExpenseRead(ExpenseBase):
   id: int
