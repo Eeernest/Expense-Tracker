@@ -9,6 +9,9 @@ class ExpenseRepository:
   def __init__(self, session: Session):
     self.session = session
 
+  def check_user_expense(self, user_id: int, expense_id: int) -> Expense | None:
+    return self.session.execute(select(Expense).where(Expense.user_id == user_id, Expense.id == expense_id)).scalars().first()
+
   def save(self, expense: Expense) -> Expense:
     self.session.add(expense)
     self.session.commit()
