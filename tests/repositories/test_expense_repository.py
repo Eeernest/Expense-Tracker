@@ -140,3 +140,9 @@ def test_sum_expense_category(expense_repo, expense_list):
   result = expense_repo.sum_expense(1, start_date, end_date, category)
 
   assert result == 1000
+
+def test_delete_expense_success(expense_repo, expense_data):
+  data = expense_repo.save(expense_data)
+  result = expense_repo.delete_expense(data)
+
+  assert result == {"message": "Expense deleted"}
