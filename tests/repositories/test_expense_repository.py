@@ -90,3 +90,20 @@ def test_check_user_expense_success(expense_repo, expense_data):
 
   assert result.user_id == 1
   assert result.id == 1
+
+def test_sum_expense_today(expense_repo, expense_list):
+  end_date = datetime(2026, 3, 1)
+  start_date = end_date
+
+  result = expense_repo.sum_expense(1, start_date, end_date)
+
+  assert result == 5000
+
+def test_sum_expense_category(expense_repo, expense_list):
+  end_date = datetime(2026, 3, 1)
+  start_date = end_date - timedelta(days=90)
+  category = ExpenseCategory.entertainment
+
+  result = expense_repo.sum_expense(1, start_date, end_date, category)
+
+  assert result == 1000
