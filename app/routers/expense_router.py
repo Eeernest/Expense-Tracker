@@ -51,3 +51,11 @@ def edit(
   category: ExpenseCategory | None = None
 ):
   return service.edit(user, expense, description, amount, category)
+
+@router.delete("/expense/")
+def delete_expense(
+  service: ExpenseDep,
+  user: CurrentUserDep,
+  expense: ExpenseEdit
+):
+  return service.delete_expense(user, expense)
