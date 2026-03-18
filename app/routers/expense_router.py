@@ -32,6 +32,15 @@ def view_expense(
   
   return service.view_all(user, offset, limit, category)
 
+@router.get("/expenses/sum", response_model=float)
+def sum_expense(
+  service: ExpenseDep,
+  user: CurrentUserDep,
+  date: ExpenseDate,
+  category: ExpenseCategory | None = None
+):
+  return service.sum_expense(user, date, category)
+
 @router.patch("/expenses/", response_model=ExpenseRead)
 def edit(
   service: ExpenseDep,
