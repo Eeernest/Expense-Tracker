@@ -41,3 +41,9 @@ class ExpenseRepository:
       statement = statement.where(Expense.category == category)
 
     return self.session.execute(statement).scalar() or 0.0
+
+  def delete_expense(self, expense: Expense):
+    self.session.delete(expense)
+    self.session.commit()
+
+    return {"message": "Expense deleted"}
