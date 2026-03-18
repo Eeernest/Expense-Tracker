@@ -106,3 +106,11 @@ class ExpenseService:
       user_expense.category = category
 
     return self.repo.save(user_expense)
+  
+  def delete_expense(self, user: User, expense: ExpenseEdit):
+    user_expense = self.repo.check_user_expense(user.id, expense.expense_id)
+
+    if user_expense is None:
+      raise HTTPException(status_code=404, detail="Expense not found")
+
+    return self.repo.delete_expense(user_expense)
