@@ -91,6 +91,39 @@ def test_check_user_expense_success(expense_repo, expense_data):
   assert result.user_id == 1
   assert result.id == 1
 
+def test_sum_expense_ninety_days(expense_repo, expense_list):
+  end_date = datetime(2026, 3, 1)
+  start_date = end_date - timedelta(days=90)
+
+  result = expense_repo.sum_expense(1, start_date, end_date)
+
+  assert result == 13500
+
+def test_sum_expense_thirty_days(expense_repo, expense_list):
+  end_date = datetime(2026, 3, 1)
+  start_date = end_date - timedelta(days=30)
+
+  result = expense_repo.sum_expense(1, start_date, end_date)
+
+  assert result == 8500
+
+def test_sum_expense_seven_days(expense_repo, expense_list):
+  end_date = datetime(2026, 3, 1)
+  start_date = end_date - timedelta(days=7)
+
+  result = expense_repo.sum_expense(1, start_date, end_date)
+
+  assert result == 6000
+
+def test_sum_expense_no_expenses(expense_repo, expense_list):
+  end_date = datetime(2026, 3, 1)
+  start_date = end_date - timedelta(days=90)
+  category = ExpenseCategory.transportation
+
+  result = expense_repo.sum_expense(1, start_date, end_date, category)
+
+  assert result == 0
+
 def test_sum_expense_today(expense_repo, expense_list):
   end_date = datetime(2026, 3, 1)
   start_date = end_date
