@@ -1,7 +1,6 @@
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.orm import Session
 from app.models.expense_model import Expense, ExpenseCategory
-from app.schemas.expense_schema import ExpenseDate
 
 from datetime import datetime
 
@@ -34,3 +33,11 @@ class ExpenseRepository:
       statement = statement.where(Expense.category == category)
 
     return self.session.execute(statement).scalars().all()
+
+  def sum_expense(self, user_id: int, start_date: datetime, end_date: datetime, category: ExpenseCategory | None = None) -> float:
+    statement = select(func.sum(Expense.amount)).where(Expense.user_id == user_id, Expense.date >= start_date, Expense.date < end_date)
+
+    if category:
+      statement = statement.where(Expense.category == category)
+
+    return self.session.execute(statement).scalar() or 0.0
