@@ -93,6 +93,15 @@ def test_view_empty_list(repo, date, exp_service, user):
 
   repo.view_date.assert_called_once()
 
+def test_sum_expense_success(repo, date, exp_service, user):
+  repo.sum_expense.return_value = 2000
+
+  result = exp_service.sum_expense(user, date)
+
+  assert result == 2000
+
+  repo.sum_expense.assert_called_once()
+
 def test_edit_success(repo, expense_data, exp_service, user, edit):
   repo.check_user_expense.return_value = expense_data
   repo.save.return_value = expense_data
