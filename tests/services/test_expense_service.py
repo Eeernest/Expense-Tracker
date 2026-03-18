@@ -136,3 +136,26 @@ def test_edit_no_field(repo, expense_data, exp_service, user, edit):
   assert "field" in str(exc.value)
 
   repo.check_user_expense.assert_called_once()
+
+def test_delete_expense_success(repo, expense_data, exp_service, user, edit):
+  repo.check_user_expense.return_value = expense_data
+  repo.delete_expense.return_value = {"message": "Expense deleted"}
+
+  result = exp_service.delete_expense(user, edit)
+
+  assert result == {"message": "Expense deleted"}
+
+  repo.check_user_expense.assert_called_once()
+  repo.delete_expense_assert_called_once()
+
+def test_delete_expense_no_expense(repo, exp_service, user, edit):
+  repo.check_user_expense.return_value = None
+  
+  with pytest.raises(HTTPException) as exc:
+    exp_service.delete_expense(user, edit)
+
+  assert exc.value.status_code == 404
+  assert exc.value.detail == "Expense not found"
+
+  repo.check_user_expense.assert_called_once()
+  repo.delete_expense.assert_not_called()
