@@ -3,7 +3,12 @@ from app.core.config import Config
 from app.models.user_model import User, UserRole
 from app.schemas.user_schema import UserCreate
 from app.repositories.user_repository import UserRepository
+
+import os
+from dotenv import load_dotenv
 from fastapi import HTTPException
+
+load_dotenv(".env")
 
 class UserService:
   def __init__(self, secure: Security, config: Config, repo: UserRepository):
@@ -28,3 +33,21 @@ class UserService:
     )
 
     return self.repo.create_repo(new_account)
+  
+  def create_admin(self):
+    admin_username = os.getenv("ADMIN_USERNAME")
+
+    existing_username = self.repo.check_username(admin_username)
+
+    if existing_username is not None:
+      return
+
+    hashed_password = self.secure.get_password_hash(os.getenv("ADMIN_PASSWORD"))
+
+    first_admin = User(
+      username=admin_username,
+      hashed_password=hashed_password,
+      role=UserRole.admin
+    )
+
+    return self.repo.create_repo(first_admin)
