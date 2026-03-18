@@ -55,6 +55,31 @@ class ExpenseService:
 
     return self.repo.view_date(user.id, start_date, end_date, offset, limit, category)
 
+  def sum_expense(self, user: User, date: ExpenseDate, category: ExpenseCategory | None = None) -> float:
+    date_now = datetime.now()
+
+    if date == ExpenseDate.today:
+      start_date = datetime(date_now.year, date_now.month, date_now.day)
+      end_date = start_date + timedelta(days=1)
+
+    elif date == ExpenseDate.seven_days:
+      start_date = date_now - timedelta(days=7)
+      end_date = date_now
+
+    elif date == ExpenseDate.thirty_days:
+      start_date = date_now - timedelta(days=30)
+      end_date = date_now
+
+    elif date == ExpenseDate.ninety_days:
+      start_date = date_now - timedelta(days=90)
+      end_date = date_now
+
+    elif date == ExpenseDate.current_month:
+      start_date = datetime(date_now.year, date_now.month, 1)
+      end_date = start_date + relativedelta(months=1)
+
+    return self.repo.sum_expense(user.id, start_date, end_date, category)
+
   def edit(
       self,
       user: User,
