@@ -23,3 +23,8 @@ def current_user(token: TokenDep, service: PermitDep) -> User:
   return service.get_current_user(token)
 
 CurrentUserDep = Annotated[User, Depends(current_user)]
+
+def current_admin(token: TokenDep, service: PermitDep) -> User:
+  return service.get_current_admin(token)
+
+CurrentAdminDep = Annotated[User, Depends(current_admin)]
