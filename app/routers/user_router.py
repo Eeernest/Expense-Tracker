@@ -30,3 +30,11 @@ def edit_role(
   role: UserRole
 ):
   return service.edit_role(user_id, role)
+
+@router.delete("/users/delete")
+def delete(
+  admin: CurrentAdminDep,
+  service: UserDep,
+  user_id: int
+):
+  return service.delete(user_id)

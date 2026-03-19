@@ -67,3 +67,11 @@ class UserService:
     edited_user.role = role
 
     return self.repo.save(edited_user)
+  
+  def delete(self, user_id: int):
+    user = self.repo.check_user_id(user_id)
+
+    if user is None:
+      raise HTTPException(status_code=404, detail="User ID not found")
+    
+    return self.repo.delete(user)

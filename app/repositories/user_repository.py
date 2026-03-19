@@ -28,3 +28,9 @@ class UserRepository:
       statement = statement.where(User.role == role)
 
     return self.session.execute(statement).scalars().all()
+  
+  def delete(self, user: User):
+    self.session.delete(user)
+    self.session.commit()
+
+    return {"message": "User successfully deleted"}
