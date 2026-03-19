@@ -23,6 +23,34 @@ def user_data():
     role=UserRole.user
   )
 
+@pytest.fixture
+def user_list(user_repo):
+  users = []
+
+  user1 = user_repo.save(
+    User(
+      username="user1",
+      email="user1@example.com",
+      hashed_password="Hashedpassword123",
+      role=UserRole.user
+  )
+  )
+
+  users.append(user1)
+
+  user2 = user_repo.save(
+    User(
+      username="user2",
+      email="user2@example.com",
+      hashed_password="Hashedpassword123",
+      role=UserRole.admin
+    )
+  )
+
+  users.append(user2)
+
+  return users
+
 # service
 
 @pytest.fixture

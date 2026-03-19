@@ -1,7 +1,7 @@
 from app.models.user_model import UserRole
 from app.schemas.user_schema import UserCreate
 
-from tests.fixtures.user_fixture import create_data, secure, config, repo, user_service
+from tests.fixtures.user_fixture import create_data, secure, config, repo, user_service, user_data
 
 import pytest
 from unittest.mock import Mock
@@ -75,3 +75,23 @@ def test_password_length_failure():
     )
 
   assert "Password" in str(exc.value)
+
+def test_view_all_success(repo, user_data, user_service):
+  repo.view_all.return_value = [user_data]
+
+  result = user_service.view_all(0, 10, UserRole.user)
+
+  assert len(result) == 1
+  assert result[0].role == UserRole.user
+  assert result[0].role != UserRole.admin
+
+  repo.view_all.assert_called_once()
+
+def test_view_all_empty_list(repo, user_service):
+  repo.view_all.return_value = []
+
+  result = user_service.view_all(0, 10)
+
+  assert result == []
+
+  repo.view_all.assert_called_once()

@@ -1,4 +1,4 @@
-from tests.fixtures.user_fixture import user_repo, user_data
+from tests.fixtures.user_fixture import user_repo, user_data, user_list
 from tests.test_database import db_session
 
 from app.models.user_model import UserRole
@@ -25,3 +25,26 @@ def test_check_email(user_repo, user_data):
 
   assert found_email is not None
   assert found_email.email == "user1@example.com"
+
+def test_view_all_success(user_repo, user_list):
+  result = user_repo.view_all(0, 10)
+
+  assert len(result) == 2
+
+def test_view_all_role_filter(user_repo, user_list):
+  result = user_repo.view_all(0, 10, UserRole.user)
+
+  assert len(result) == 1
+  assert all(user.id == 1 for user in result)
+  assert all(user.role == UserRole.user for user in result)
+  assert all(user.role != UserRole.admin for user in result)
+
+def test_view_all_offset(user_repo, user_list):
+  result = user_repo.view_all(1, 10)
+
+  assert len(result) == 1
+
+def test_view_all_limit(user_repo, user_list):
+  result = user_repo.view_all(0, 1)
+
+  assert len(result) == 1
