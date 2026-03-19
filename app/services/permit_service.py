@@ -2,6 +2,7 @@ from app.core.security import Security
 from app.core.config import Config
 from app.repositories.permit_repository import PermitRepository
 from app.schemas.token_schema import TokenData
+from app.models.user_model import UserRole
 
 from fastapi import HTTPException, status
 from jwt.exceptions import InvalidTokenError
@@ -23,11 +24,12 @@ class PermitService:
       payload = self.secure.decode_jwt(token, self.config.SECRET_KEY, self.config.ALGORITHM)
 
       user_id = payload.get("sub")
+      user_role = payload.get("role")
 
       if user_id is None:
         raise credentials_exception
       
-      token_data = TokenData(user_id=user_id)
+      token_data = TokenData(user_id=user_id, user_role=user_role)
 
     except InvalidTokenError:
       raise credentials_exception
@@ -36,5 +38,16 @@ class PermitService:
 
     if user is None:
       raise credentials_exception
+    
+    return user
+
+  def get_current_admin(self, token: str):
+    user = self.get_current_user(token)
+
+    if user.role != UserRole.admin:
+      raise HTTPException(
+        status_code=status.HTTP_403_FORBIDDEN,
+        detail="Not enough permission"
+      )
     
     return user
