@@ -8,7 +8,7 @@ from tests.test_database import db_session
 def test_get_current_user_success(secure, repo, created_user, permit_service):
   token = "valid token"
 
-  secure.decode_jwt.return_value = {"sub": str(created_user.id)}
+  secure.decode_jwt.return_value = {"sub": str(created_user.id), "role": created_user.role}
   repo.check_user_id.return_value = created_user
 
   result = permit_service.get_current_user(token)
@@ -47,7 +47,7 @@ def test_invalid_token(secure, permit_service):
 def test_user_not_found(secure, repo, permit_service):
   token = "valid token"
 
-  secure.decode_jwt.return_value = {"sub": 1}
+  secure.decode_jwt.return_value = {"sub": 1, "role": "user"}
   repo.check_user_id.return_value = None
 
   with pytest.raises(HTTPException) as exc:
