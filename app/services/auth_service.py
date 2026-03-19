@@ -57,7 +57,7 @@ class AuthService:
     access_token_expires = timedelta(minutes=self.config.ACCESS_TOKEN_EXPIRE_MINUTES)
 
     access_token = self._create_access_token(
-      data={"sub": str(user.id)},
+      data={"sub": str(user.id), "role": user.role},
       expires_delta=access_token_expires
     )
 
