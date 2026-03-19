@@ -114,3 +114,6 @@ class ExpenseService:
       raise HTTPException(status_code=404, detail="Expense not found")
 
     return self.repo.delete_expense(user_expense)
+  
+  def view_all_user_expenses(self, offset: int, limit: int, category: ExpenseCategory | None = None) -> list[Expense]:
+    return self.repo.view_all_user_expenses(offset, limit, category)

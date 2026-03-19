@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Query
 from app.models.expense_model import ExpenseCategory
-from app.schemas.expense_schema import ExpenseBase, ExpenseRead, ExpenseDate, ExpenseEdit
+from app.schemas.expense_schema import ExpenseBase, ExpenseRead, ExpenseDate, ExpenseEdit, ExpenseAdminRead
 from app.dependencies.expense_dependency import ExpenseDep
 
-from app.dependencies.permit_dependency import CurrentUserDep
+from app.dependencies.permit_dependency import CurrentUserDep, CurrentAdminDep
 
 from typing import Annotated
 
@@ -52,10 +52,20 @@ def edit(
 ):
   return service.edit(user, expense, description, amount, category)
 
-@router.delete("/expense/")
+@router.delete("/expenses/")
 def delete_expense(
   service: ExpenseDep,
   user: CurrentUserDep,
   expense: ExpenseEdit
 ):
   return service.delete_expense(user, expense)
+
+@router.get("/expenses/users/all", response_model=list[ExpenseAdminRead])
+def view_all_user_expenses(
+  admin: CurrentAdminDep,
+  service: ExpenseDep,
+  offset: int = 0,
+  limit: Annotated[int, Query(le=100)] = 100,
+  category: ExpenseCategory | None = None
+):
+  return service.view_all_user_expenses(offset, limit, category)

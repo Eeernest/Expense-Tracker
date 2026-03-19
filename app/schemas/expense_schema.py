@@ -24,3 +24,6 @@ class ExpenseDate(str, enum.Enum):
 
 class ExpenseEdit(BaseModel):
   expense_id: int
+
+class ExpenseAdminRead(ExpenseRead):
+  updated_at: datetime

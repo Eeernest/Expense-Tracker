@@ -47,3 +47,11 @@ class ExpenseRepository:
     self.session.commit()
 
     return {"message": "Expense deleted"}
+
+  def view_all_user_expenses(self, offset: int, limit: int, category: ExpenseCategory | None = None) -> list[Expense]:
+    statement = select(Expense).offset(offset).limit(limit)
+
+    if category is not None:
+      statement = statement.where(Expense.category == category)
+    
+    return self.session.execute(statement).scalars().all()
