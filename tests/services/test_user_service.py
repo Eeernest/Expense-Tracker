@@ -117,3 +117,25 @@ def test_edit_role_exception(repo, user_data, user_service):
   assert exc.value.detail == "User already has this role"
 
   repo.check_user_id.assert_called_once()
+
+def test_delete_user_success(repo, user_data, user_service):
+  repo.check_user_id.return_value = user_data
+  repo.delete_user.return_value = {"message": "User deleted"}
+  
+  result = user_service.delete_user(1)
+
+  assert result == {"message": "User deleted"}
+
+  repo.check_user_id.assert_called_once()
+  repo.delete_user.assert_called_once()
+
+def test_delete_user_no_user(repo, user_service):
+  repo.check_user_id.return_value = None
+
+  with pytest.raises(HTTPException) as exc:
+    user_service.delete_user(1)
+
+  assert exc.value.status_code == 404
+  assert exc.value.detail == "User ID not found"
+
+  repo.check_user_id.assert_called_once()

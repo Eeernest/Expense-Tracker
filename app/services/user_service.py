@@ -74,4 +74,4 @@ class UserService:
     if user is None:
       raise HTTPException(status_code=404, detail="User ID not found")
     
-    return self.repo.delete(user)
+    return self.repo.delete_user(user)

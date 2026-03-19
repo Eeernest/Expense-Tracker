@@ -56,3 +56,10 @@ def test_view_all_limit(user_repo, user_list):
   result = user_repo.view_all(0, 1)
 
   assert len(result) == 1
+
+def test_delete_user_success(user_repo, user_data):
+  user_repo.save(user_data)
+
+  result = user_repo.delete_user(user_data)
+
+  assert result == {"message": "User deleted"}
