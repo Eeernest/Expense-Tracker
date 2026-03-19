@@ -21,3 +21,12 @@ def view_all(
   role: UserRole | None = None
 ):
   return service.view_all(offset, limit, role)
+
+@router.patch("/users/update", response_model=UserAdminRead)
+def edit_role(
+  admin: CurrentAdminDep,
+  service: UserDep,
+  user_id: int,
+  role: UserRole
+):
+  return service.edit_role(user_id, role)

@@ -54,3 +54,16 @@ class UserService:
   
   def view_all(self, offset: int, limit: int, role: UserRole | None = None) -> list[User]:
     return self.repo.view_all(offset, limit, role)
+
+  def edit_role(self, user_id: int, role: UserRole) -> User:
+    edited_user = self.repo.check_user_id(user_id)
+
+    if edited_user is None:
+      raise HTTPException(status_code=404, detail="User ID not found")
+    
+    if edited_user.role == role:
+      raise HTTPException(status_code=409, detail="User already has this role")
+    
+    edited_user.role = role
+
+    return self.repo.save(edited_user)

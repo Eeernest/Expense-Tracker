@@ -12,6 +12,9 @@ class UserRepository:
   def check_email(self, email: str) -> User | None:
     return self.session.execute(select(User).where(User.email == email)).scalars().first()
   
+  def check_user_id(self, user_id: int) -> User | None:
+    return self.session.execute(select(User).where(User.id == user_id)).scalar_one_or_none()
+  
   def save(self, user: User) -> User:
     self.session.add(user)
     self.session.commit()
