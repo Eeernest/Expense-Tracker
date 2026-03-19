@@ -29,8 +29,8 @@ class UserRepository:
 
     return self.session.execute(statement).scalars().all()
   
-  def delete(self, user: User):
+  def delete_user(self, user: User):
     self.session.delete(user)
     self.session.commit()
 
-    return {"message": "User successfully deleted"}
+    return {"message": "User deleted"}

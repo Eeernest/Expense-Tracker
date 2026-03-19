@@ -32,7 +32,7 @@ def edit_role(
   return service.edit_role(user_id, role)
 
 @router.delete("/users/delete")
-def delete(
+def delete_user(
   admin: CurrentAdminDep,
   service: UserDep,
   user_id: int

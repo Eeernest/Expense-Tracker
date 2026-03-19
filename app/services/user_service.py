@@ -68,7 +68,7 @@ class UserService:
 
     return self.repo.save(edited_user)
   
-  def delete(self, user_id: int):
+  def delete_user(self, user_id: int):
     user = self.repo.check_user_id(user_id)
 
     if user is None:
