@@ -1,9 +1,13 @@
 from pydantic import BaseModel, field_validator, EmailStr, ConfigDict
 import re
+from datetime import datetime
+from typing import Optional
+
+from app.models.user_model import UserRole
 
 class UserBase(BaseModel):
   username: str
-  email: EmailStr
+  email: Optional[EmailStr]
 
 class UserCreate(UserBase):
   password: str
@@ -23,5 +27,12 @@ class UserCreate(UserBase):
 
 class UserRead(UserBase):
   id: int
+
+  model_config = ConfigDict(from_attributes=True)
+
+class UserAdminRead(UserRead):
+  role: UserRole
+  created_at: datetime
+  updated_at: datetime
 
   model_config = ConfigDict(from_attributes=True)

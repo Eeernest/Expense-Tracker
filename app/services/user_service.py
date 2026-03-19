@@ -51,3 +51,6 @@ class UserService:
     )
 
     return self.repo.create_repo(first_admin)
+  
+  def view_all(self, offset: int, limit: int) -> list[User]:
+    return self.repo.view_all(offset, limit)

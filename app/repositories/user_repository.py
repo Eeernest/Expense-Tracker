@@ -17,3 +17,6 @@ class UserRepository:
     self.session.commit()
     self.session.refresh(user)
     return user
+
+  def view_all(self, offset: int, limit: int) -> list[User]:
+    return self.session.execute(select(User).offset(offset).limit(limit)).scalars().all()
