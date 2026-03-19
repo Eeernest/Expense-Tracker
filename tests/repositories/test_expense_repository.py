@@ -146,3 +146,19 @@ def test_delete_expense_success(expense_repo, expense_data):
   result = expense_repo.delete_expense(data)
 
   assert result == {"message": "Expense deleted"}
+
+def test_view_all_user_expenses_success(expense_repo, expense_list):
+  result = expense_repo.view_all_user_expenses(0, 10, ExpenseCategory.housing)
+
+  assert len(result) == 5
+  assert all(exp.category == ExpenseCategory.housing for exp in result)
+
+def test_view_all_user_expenses_offset(expense_repo, expense_list):
+  result = expense_repo.view_all_user_expenses(2, 20)
+
+  assert len(result) == 18
+
+def test_view_all_user_expenses_limit(expense_repo, expense_list):
+  result = expense_repo.view_all_user_expenses(0, 5)
+
+  assert len(result) == 5

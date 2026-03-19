@@ -159,3 +159,22 @@ def test_delete_expense_no_expense(repo, exp_service, user, edit):
 
   repo.check_user_expense.assert_called_once()
   repo.delete_expense.assert_not_called()
+
+def test_view_all_user_expenses_success(repo, expense_data, exp_service, category):
+  repo.view_all_user_expenses.return_value = [expense_data, expense_data]
+
+  result = exp_service.view_all_user_expenses(0, 10, category)
+
+  assert len(result) == 2
+  assert result[0].category == ExpenseCategory.housing
+
+  repo.view_all_user_expenses.assert_called_once()
+
+def test_view_all_user_expenses_empty_list(repo, exp_service):
+  repo.view_all_user_expenses.return_value = []
+
+  result = exp_service.view_all_user_expenses(0, 10)
+
+  assert result == []
+
+  repo.view_all_user_expenses.assert_called_once()
