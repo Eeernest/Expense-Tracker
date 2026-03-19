@@ -26,6 +26,14 @@ def test_check_email(user_repo, user_data):
   assert found_email is not None
   assert found_email.email == "user1@example.com"
 
+def test_check_user_id(user_repo, user_data):
+  user_repo.save(user_data)
+
+  result = user_repo.check_user_id(user_data.id)
+
+  assert result.id is not None
+  assert result.id == 1
+
 def test_view_all_success(user_repo, user_list):
   result = user_repo.view_all(0, 10)
 
