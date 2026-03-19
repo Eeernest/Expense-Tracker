@@ -32,7 +32,7 @@ class UserService:
       role=UserRole.user
     )
 
-    return self.repo.create_repo(new_account)
+    return self.repo.save(new_account)
   
   def create_admin(self):
     admin_username = os.getenv("ADMIN_USERNAME")
@@ -50,7 +50,7 @@ class UserService:
       role=UserRole.admin
     )
 
-    return self.repo.create_repo(first_admin)
+    return self.repo.save(first_admin)
   
   def view_all(self, offset: int, limit: int) -> list[User]:
     return self.repo.view_all(offset, limit)

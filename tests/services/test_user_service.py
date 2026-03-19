@@ -14,7 +14,7 @@ def test_create_account_success(secure, repo, user_service, create_data):
 
   secure.get_password_hash.return_value = "Hashedpassword123"
 
-  repo.create_repo.return_value = Mock(
+  repo.save.return_value = Mock(
     username="user1",
     email="user1@example.com",
     role=UserRole.user
@@ -26,7 +26,7 @@ def test_create_account_success(secure, repo, user_service, create_data):
   assert created_user.role == UserRole.user
 
   secure.get_password_hash.assert_called_once()
-  repo.create_repo.assert_called_once()
+  repo.save.assert_called_once()
 
 def test_username_failure(repo, user_service, create_data):
   repo.check_username.return_value = Mock()

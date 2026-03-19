@@ -25,7 +25,7 @@ def user_data():
 @pytest.fixture
 def created_user(db_session, user_data):
   repo = UserRepository(db_session)
-  return repo.create_repo(user_data)
+  return repo.save(user_data)
 
 @pytest.fixture
 def create_data():

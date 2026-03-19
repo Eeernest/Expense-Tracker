@@ -12,7 +12,7 @@ class UserRepository:
   def check_email(self, email: str) -> User | None:
     return self.session.execute(select(User).where(User.email == email)).scalars().first()
   
-  def create_repo(self, user: User) -> User:
+  def save(self, user: User) -> User:
     self.session.add(user)
     self.session.commit()
     self.session.refresh(user)
