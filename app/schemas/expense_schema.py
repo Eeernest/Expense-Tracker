@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 import enum
 from datetime import datetime
 
@@ -12,6 +12,8 @@ class ExpenseRead(ExpenseBase):
   id: int
   category: ExpenseCategory
   date: datetime
+
+  model_config = ConfigDict(from_attributes=True)
 
 class ExpenseDate(str, enum.Enum):
   today = "today"
