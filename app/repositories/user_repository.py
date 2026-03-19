@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
-from app.models.user_model import User
+from app.models.user_model import User, UserRole
 
 class UserRepository:
   def __init__(self, session: Session):
@@ -18,5 +18,10 @@ class UserRepository:
     self.session.refresh(user)
     return user
 
-  def view_all(self, offset: int, limit: int) -> list[User]:
-    return self.session.execute(select(User).offset(offset).limit(limit)).scalars().all()
+  def view_all(self, offset: int, limit: int, role: UserRole | None = None) -> list[User]:
+    statement = select(User).offset(offset).limit(limit)
+
+    if role is not None:
+      statement = statement.where(User.role == role)
+
+    return self.session.execute(statement).scalars().all()
