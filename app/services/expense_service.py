@@ -117,3 +117,11 @@ class ExpenseService:
   
   def view_all_user_expenses(self, offset: int, limit: int, category: ExpenseCategory | None = None) -> list[Expense]:
     return self.repo.view_all_user_expenses(offset, limit, category)
+  
+  def view_user_expense(self, user_id: int, offset: int, limit: int, category: ExpenseCategory | None = None) -> list[Expense]:
+    user = self.repo.check_user_id(user_id)
+
+    if user is None:
+      raise HTTPException(status_code=404, detail="User ID not found")
+    
+    return self.repo.view_user_expense(user_id, offset, limit, category)

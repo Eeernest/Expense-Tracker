@@ -10,6 +10,9 @@ class ExpenseRepository:
 
   def check_user_expense(self, user_id: int, expense_id: int) -> Expense | None:
     return self.session.execute(select(Expense).where(Expense.user_id == user_id, Expense.id == expense_id)).scalars().first()
+  
+  def check_user_id(self, user_id: int) -> Expense | None:
+    return self.session.execute(select(Expense).where(Expense.user_id == user_id)).scalar_one_or_none()
 
   def save(self, expense: Expense) -> Expense:
     self.session.add(expense)
@@ -54,4 +57,12 @@ class ExpenseRepository:
     if category is not None:
       statement = statement.where(Expense.category == category)
     
+    return self.session.execute(statement).scalars().all()
+
+  def view_user_expense(self, user_id: int, offset: int, limit: int, category: ExpenseCategory | None = None) -> list[Expense]:
+    statement = select(Expense).where(Expense.user_id == user_id).offset(offset).limit(limit)
+
+    if category is not None:
+      statement = statement.where(Expense.category == category)
+
     return self.session.execute(statement).scalars().all()

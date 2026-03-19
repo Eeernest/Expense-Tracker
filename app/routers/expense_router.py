@@ -69,3 +69,14 @@ def view_all_user_expenses(
   category: ExpenseCategory | None = None
 ):
   return service.view_all_user_expenses(offset, limit, category)
+
+@router.get("/expenses/users", response_model=list[ExpenseAdminRead])
+def view_user_expense(
+  admin: CurrentAdminDep,
+  service: ExpenseDep,
+  user_id: int,
+  offset: int = 0,
+  limit: Annotated[int, Query(le=100)] = 100,
+  category: ExpenseCategory | None = None
+):
+  return service.view_user_expense(user_id, offset, limit, category)
