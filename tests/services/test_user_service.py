@@ -95,3 +95,25 @@ def test_view_all_empty_list(repo, user_service):
   assert result == []
 
   repo.view_all.assert_called_once()
+
+def test_edit_role_success(repo, user_data, user_service):
+  repo.check_user_id.return_value = user_data
+  repo.save.return_value = user_data
+
+  result = user_service.edit_role(1, UserRole.admin)
+
+  assert result.role == UserRole.admin
+
+  repo.check_user_id.assert_called_once()
+  repo.save.assert_called_once()
+
+def test_edit_role_exception(repo, user_data, user_service):
+  repo.check_user_id.return_value = user_data
+
+  with pytest.raises(HTTPException) as exc:
+    user_service.edit_role(1, UserRole.user)
+
+  assert exc.value.status_code == 409
+  assert exc.value.detail == "User already has this role"
+
+  repo.check_user_id.assert_called_once()
