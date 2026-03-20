@@ -7,4 +7,4 @@ class AuthRepository:
     self.session = session
 
   def check_username(self, username: str) -> User | None:
-    return self.session.execute(select(User).where(User.username == username)).scalars().first()
+    return self.session.execute(select(User).where(User.username == username)).scalar_one_or_none()

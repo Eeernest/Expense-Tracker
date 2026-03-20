@@ -7,4 +7,4 @@ class PermitRepository:
     self.session = session
 
   def check_user_id(self, user_id: int) -> User | None:
-    return self.session.execute(select(User).where(User.id == user_id)).scalars().first()
+    return self.session.execute(select(User).where(User.id == user_id)).scalar_one_or_none()

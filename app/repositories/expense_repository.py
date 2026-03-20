@@ -9,7 +9,7 @@ class ExpenseRepository:
     self.session = session
 
   def check_user_expense(self, user_id: int, expense_id: int) -> Expense | None:
-    return self.session.execute(select(Expense).where(Expense.user_id == user_id, Expense.id == expense_id)).scalars().first()
+    return self.session.execute(select(Expense).where(Expense.user_id == user_id, Expense.id == expense_id)).scalar_one_or_none()
   
   def check_user_id(self, user_id: int) -> Expense | None:
     return self.session.execute(select(Expense).where(Expense.user_id == user_id)).scalar_one_or_none()

@@ -7,10 +7,10 @@ class UserRepository:
     self.session = session
 
   def check_username(self, username: str) -> User | None:
-    return self.session.execute(select(User).where(User.username == username)).scalars().first()
+    return self.session.execute(select(User).where(User.username == username)).scalar_one_or_none()
   
   def check_email(self, email: str) -> User | None:
-    return self.session.execute(select(User).where(User.email == email)).scalars().first()
+    return self.session.execute(select(User).where(User.email == email)).scalar_one_or_none()
   
   def check_user_id(self, user_id: int) -> User | None:
     return self.session.execute(select(User).where(User.id == user_id)).scalar_one_or_none()
