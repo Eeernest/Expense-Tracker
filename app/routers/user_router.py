@@ -37,4 +37,4 @@ def delete_user(
   service: UserDep,
   user_id: int
 ):
-  return service.delete(user_id)
+  return service.delete_user(user_id)
