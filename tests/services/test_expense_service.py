@@ -178,3 +178,37 @@ def test_view_all_user_expenses_empty_list(repo, exp_service):
   assert result == []
 
   repo.view_all_user_expenses.assert_called_once()
+
+def test_view_user_expense_success(repo, expense_data, exp_service, category):
+  repo.check_user_id.return_value = expense_data
+  repo.view_user_expense.return_value = [expense_data, expense_data]
+
+  result = exp_service.view_user_expense(1, 0, 10, category)
+
+  assert len(result) == 2
+  assert result[0].category == ExpenseCategory.housing
+
+  repo.check_user_id.assert_called_once()
+  repo.view_user_expense.assert_called_once()
+
+def test_view_user_expense_empty_list(repo, expense_data, exp_service):
+  repo.check_user_id.return_value = expense_data
+  repo.view_user_expense.return_value = []
+
+  result = exp_service.view_user_expense(1, 0, 10)
+
+  assert result == []
+
+  repo.check_user_id.assert_called_once()
+  repo.view_user_expense.assert_called_once()
+
+def test_view_user_expense_no_id(repo, exp_service):
+  repo.check_user_id.return_value = None
+
+  with pytest.raises(HTTPException) as exc:
+    exp_service.view_user_expense(1, 0, 10)
+
+  assert exc.value.status_code == 404
+  assert exc.value.detail == "User ID not found"
+
+  repo.check_user_id.assert_called_once()

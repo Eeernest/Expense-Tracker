@@ -162,3 +162,20 @@ def test_view_all_user_expenses_limit(expense_repo, expense_list):
   result = expense_repo.view_all_user_expenses(0, 5)
 
   assert len(result) == 5
+
+def test_view_user_expense_succsess(expense_repo, expense_list):
+  result = expense_repo.view_user_expense(1, 0, 10, ExpenseCategory.housing)
+
+  assert len(result) == 5
+  assert all(exp.category == ExpenseCategory.housing for exp in result)
+
+def test_view_user_expense_offset(expense_repo, expense_list):
+  result = expense_repo.view_user_expense(1, 2, 20)
+
+  assert len(result) == 18
+
+def test_view_user_expense_limit(expense_repo, expense_list):
+  result = expense_repo.view_user_expense(1, 0, 5)
+
+  assert len(result) == 5
+  
