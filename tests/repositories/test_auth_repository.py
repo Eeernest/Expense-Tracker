@@ -5,4 +5,4 @@ def test_check_username(auth_repo, created_user):
   result = auth_repo.check_username(created_user.username)
 
   assert result is not None
-  assert result.username == "user1"
+  assert result.username == created_user.username

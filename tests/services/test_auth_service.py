@@ -27,7 +27,7 @@ def test_login_username_failure(repo, secure, auth_service):
     auth_service.login("user1", "Password123")
 
   assert exc.value.status_code == 401
-  assert "Incorrect" in str(exc.value)
+  assert exc.value.detail == "Incorrect username or password"
 
   repo.check_username.assert_called_once()
   secure.verify_password.assert_called_once()
@@ -40,7 +40,7 @@ def test_login_password_failure(repo, secure, auth_service, user_data):
     auth_service.login("user1", "Wrongpassword123")
 
   assert exc.value.status_code == 401
-  assert "Incorrect" in str(exc.value)
+  assert exc.value.detail == "Incorrect username or password"
 
   repo.check_username.assert_called_once()
   secure.verify_password.assert_called_once()
