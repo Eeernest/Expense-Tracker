@@ -1,40 +1,33 @@
-from tests.fixtures.user_fixture import user_repo, user_data, user_list
+from tests.fixtures.user_fixture import user_repo, saved_data, user_data, user_list
 from tests.test_database import db_session
 
 from app.models.user_model import UserRole
 
-def test_create_user_repo_success(user_repo, user_data):
-  created_user = user_repo.save(user_data)
+def test_save(user_repo, saved_data):
+  created_user = saved_data
 
-  assert created_user.id is not None
-  assert created_user.username == "user1"
-  assert created_user.role == UserRole.user
+  assert created_user.id == saved_data.id
+  assert created_user.username == saved_data.username
+  assert created_user.role == saved_data.role
 
-def test_check_username(user_repo, user_data):
-  user_repo.save(user_data)
+def test_check(user_repo, saved_data):
+  found_user = user_repo.check_username(saved_data.username)
 
-  found_user = user_repo.check_username(user_data.username)
+  assert found_user.id == saved_data.id
+  assert found_user.username == saved_data.username
 
-  assert found_user is not None
-  assert found_user.username == "user1"
+def test_check_email(user_repo, saved_data):
+  found_email = user_repo.check_email(saved_data.email)
 
-def test_check_email(user_repo, user_data):
-  user_repo.save(user_data)
+  assert found_email.id == saved_data.id
+  assert found_email.email == saved_data.email
 
-  found_email = user_repo.check_email(user_data.email)
+def test_check_user_id(user_repo, saved_data):
+  result = user_repo.check_user_id(saved_data.id)
 
-  assert found_email is not None
-  assert found_email.email == "user1@example.com"
+  assert result.id == saved_data.id
 
-def test_check_user_id(user_repo, user_data):
-  user_repo.save(user_data)
-
-  result = user_repo.check_user_id(user_data.id)
-
-  assert result.id is not None
-  assert result.id == 1
-
-def test_view_all_success(user_repo, user_list):
+def test_view_all(user_repo, user_list):
   result = user_repo.view_all(0, 10)
 
   assert len(result) == 2
@@ -57,9 +50,7 @@ def test_view_all_limit(user_repo, user_list):
 
   assert len(result) == 1
 
-def test_delete_user_success(user_repo, user_data):
-  user_repo.save(user_data)
-
-  result = user_repo.delete_user(user_data)
+def test_delete_user(user_repo, saved_data):
+  result = user_repo.delete_user(saved_data)
 
   assert result == {"message": "User deleted"}

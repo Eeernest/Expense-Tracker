@@ -24,6 +24,10 @@ def user_data():
   )
 
 @pytest.fixture
+def saved_data(user_repo, user_data):
+  return user_repo.save(user_data)
+
+@pytest.fixture
 def user_list(user_repo):
   users = []
 

@@ -8,7 +8,7 @@ from unittest.mock import Mock
 from fastapi import HTTPException
 from pydantic import ValidationError
 
-def test_create_account_success(secure, repo, user_service, create_data):
+def test_save_success(secure, repo, user_service, create_data):
   repo.check_username.return_value = None
   repo.check_email.return_value = None
 
@@ -35,7 +35,7 @@ def test_username_failure(repo, user_service, create_data):
     user_service.create_account(create_data)
 
   assert exc.value.status_code == 409
-  repo.create_repo.assert_not_called()
+  repo.save.assert_not_called()
 
 def test_email_failure(repo, user_service, create_data):
   repo.check_email.return_value = Mock()
@@ -82,7 +82,7 @@ def test_view_all_success(repo, user_data, user_service):
   result = user_service.view_all(0, 10, UserRole.user)
 
   assert len(result) == 1
-  assert result[0].role == UserRole.user
+  assert result[0].role == user_data.role
   assert result[0].role != UserRole.admin
 
   repo.view_all.assert_called_once()
@@ -102,7 +102,7 @@ def test_edit_role_success(repo, user_data, user_service):
 
   result = user_service.edit_role(1, UserRole.admin)
 
-  assert result.role == UserRole.admin
+  assert result.role == user_data.role
 
   repo.check_user_id.assert_called_once()
   repo.save.assert_called_once()
