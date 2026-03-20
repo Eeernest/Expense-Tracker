@@ -1,6 +1,7 @@
 import enum
 from datetime import datetime, timezone
-from sqlalchemy import Integer, String, Column, Enum, DateTime
+from sqlalchemy import Integer, String, Column, Enum, DateTime, Boolean
+from sqlalchemy.orm import relationship
 from app.db.database import Base
 
 class UserRole(str, enum.Enum):
@@ -17,3 +18,6 @@ class User(Base):
   role = Column(Enum(UserRole), default=UserRole.user)
   created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
   updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+  is_active = Column(Boolean, default=True)
+
+  expenses = relationship("Expense", back_populates="user")

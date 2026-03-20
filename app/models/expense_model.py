@@ -1,6 +1,7 @@
 import enum
 from datetime import datetime, timezone
 from sqlalchemy import Integer, Float, String, Column, Enum, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
 from app.db.database import Base
 
 class ExpenseCategory(str, enum.Enum):
@@ -22,3 +23,5 @@ class Expense(Base):
   updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
 
   user_id = Column(Integer, ForeignKey("users.id"))
+
+  users = relationship("User", back_populates="expenses")
