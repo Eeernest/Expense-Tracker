@@ -163,6 +163,12 @@ def test_view_all_user_expenses_limit(expense_repo, expense_list):
 
   assert len(result) == 5
 
+def test_check_user_id_success(expense_repo, expense_data):
+  expense_repo.save(expense_data)
+  result = expense_repo.check_user_id(expense_data.user_id)
+
+  assert result.user_id == 1
+
 def test_view_user_expense_succsess(expense_repo, expense_list):
   result = expense_repo.view_user_expense(1, 0, 10, ExpenseCategory.housing)
 
