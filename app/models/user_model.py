@@ -20,4 +20,4 @@ class User(Base):
   updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
   is_active = Column(Boolean, default=True)
 
-  expenses = relationship("Expense", back_populates="user")
+  expenses = relationship("Expense", back_populates="users")
