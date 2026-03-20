@@ -29,7 +29,7 @@ def test_missing_sub(secure, permit_service):
     permit_service.get_current_user(token)
 
   assert exc.value.status_code == 401
-  assert "Could" in str(exc.value)
+  assert exc.value.detail == "Could not validate credentials"
 
   secure.decode_jwt.assert_called_once()
 
@@ -42,7 +42,7 @@ def test_invalid_token(secure, permit_service):
     permit_service.get_current_user(token)
 
   assert exc.value.status_code == 401
-  assert "Could" in str(exc.value)
+  assert exc.value.detail == "Could not validate credentials"
 
   secure.decode_jwt.assert_called_once()
 
@@ -56,7 +56,7 @@ def test_user_not_found(secure, repo, permit_service):
     permit_service.get_current_user(token)
 
   assert exc.value.status_code == 401
-  assert "Could" in str(exc.value)
+  assert exc.value.detail == "Could not validate credentials"
 
   secure.decode_jwt.assert_called_once()
   repo.check_user_id.assert_called_once()
