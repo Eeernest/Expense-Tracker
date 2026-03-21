@@ -38,3 +38,12 @@ def delete_user(
   user_id: int
 ):
   return service.delete_user(user_id)
+
+@router.patch("/users/status", response_model=UserAdminRead)
+def update_user_status(
+  admin: CurrentAdminDep,
+  service: UserDep,
+  user_id: int,
+  status: bool
+):
+  return service.update_user_status(user_id, status)

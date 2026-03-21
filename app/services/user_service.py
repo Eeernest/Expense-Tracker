@@ -75,3 +75,16 @@ class UserService:
       raise HTTPException(status_code=404, detail="User ID not found")
     
     return self.repo.delete_user(user)
+
+  def update_user_status(self, user_id: int, status: bool) -> User:
+    user = self.repo.check_user_id(user_id)
+
+    if user is None:
+      raise HTTPException(status_code=404, detail="User ID not found")
+    
+    if user.is_active == status:
+      raise HTTPException(status_code=409, detail="User already has this status")
+    
+    user.is_active = status
+
+    return self.repo.save(user)
