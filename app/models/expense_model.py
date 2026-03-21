@@ -23,5 +23,4 @@ class Expense(Base):
   updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
 
   user_id = Column(Integer, ForeignKey("users.id"))
-
-  users = relationship("User", back_populates="expenses")
+  username = Column(String, ForeignKey("users.username"))
