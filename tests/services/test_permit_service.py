@@ -61,6 +61,24 @@ def test_user_not_found(secure, repo, permit_service):
   secure.decode_jwt.assert_called_once()
   repo.check_user_id.assert_called_once()
 
+def test_get_current_user_inactive(secure, repo, created_user, permit_service):
+  token = "valid token"
+
+  user = created_user
+  user.is_active = False
+
+  secure.decode_jwt.return_value = {"sub": str(user.id), "role": user.role}
+  repo.check_user_id.return_value = user
+
+  with pytest.raises(HTTPException) as exc:
+    permit_service.get_current_user(token)
+
+  assert exc.value.status_code == 400
+  assert exc.value.detail == "User is inactive"
+
+  secure.decode_jwt.assert_called_once()
+  repo.check_user_id.assert_called_once()
+
 def test_get_current_admin_success(secure, repo, created_user, permit_service):
   token = "valid token"
   created_user.role = UserRole.admin
