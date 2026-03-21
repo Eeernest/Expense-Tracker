@@ -38,6 +38,9 @@ class PermitService:
 
     if user is None:
       raise credentials_exception
+
+    if not user.is_active:
+      raise HTTPException(status_code=400, detail="Inactive iser")
     
     return user
 
