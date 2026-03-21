@@ -5,6 +5,7 @@ from app.routers.user_router import router as user_router
 from app.routers.auth_router import router as auth_router
 from app.routers.permit_router import router as permit_router
 from app.routers.expense_router import router as expense_router
+from app.core.middleware import LoggingMiddleware
 
 from app.core.security import Security
 from app.core.config import Config
@@ -28,6 +29,8 @@ def on_startup():
 @app.get("/")
 def read_root():
   return {"message": "Hello World"}
+
+app.add_middleware(LoggingMiddleware)
 
 app.include_router(user_router)
 app.include_router(auth_router)

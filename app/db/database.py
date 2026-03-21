@@ -2,11 +2,15 @@ from typing import Annotated
 from fastapi import Depends
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session, DeclarativeBase
+import logging
+
 from app.core.config import Config
+
+logging.getLogger("sqlalchemy.engine").setLevel(logging.WARNING)
 
 DATABASE_URL = Config.DATABASE_URL
 
-engine = create_engine(DATABASE_URL, echo=True)
+engine = create_engine(DATABASE_URL, echo=False)
 
 SessionLocal = sessionmaker(
   autocommit=False,
