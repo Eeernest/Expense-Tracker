@@ -139,3 +139,38 @@ def test_delete_user_no_user(repo, user_service):
   assert exc.value.detail == "User ID not found"
 
   repo.check_user_id.assert_called_once()
+
+def test_update_user_status_success(repo, user_data, user_service):
+  repo.check_user_id.return_value = user_data
+  repo.save.return_value = user_data
+
+  result = user_service.update_user_status(1, False)
+
+  assert result.is_active == False
+
+  repo.check_user_id.assert_called_once()
+  repo.save.assert_called_once()
+
+def test_update_user_status_no_user(repo, user_service):
+  repo.check_user_id.return_value = None
+
+  with pytest.raises(HTTPException) as exc:
+    user_service.update_user_status(1, False)
+
+  assert exc.value.status_code == 404
+  assert exc.value.detail == "User ID not found"
+
+  repo.check_user_id.assert_called_once()
+
+def test_update_user_status_same_status(repo, user_data, user_service):
+  user_data.is_active = True
+  repo.check_user_id.return_value = user_data
+
+  with pytest.raises(HTTPException) as exc:
+    user_service.update_user_status(1, True)
+
+  assert exc.value.status_code == 409
+  assert exc.value.detail == "User already has this status"
+
+  repo.check_user_id.assert_called_once()
+  
