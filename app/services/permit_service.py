@@ -40,7 +40,7 @@ class PermitService:
       raise credentials_exception
 
     if not user.is_active:
-      raise HTTPException(status_code=400, detail="Inactive iser")
+      raise HTTPException(status_code=400, detail="User is inactive")
     
     return user
 
