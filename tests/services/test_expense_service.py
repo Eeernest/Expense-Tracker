@@ -146,7 +146,7 @@ def test_delete_expense_success(repo, expense_data, exp_service, user, edit):
   assert result == {"message": "Expense deleted"}
 
   repo.check_user_expense.assert_called_once()
-  repo.delete_expense_assert_called_once()
+  repo.delete_expense.assert_called_once()
 
 def test_delete_expense_no_expense(repo, exp_service, user, edit):
   repo.check_user_expense.return_value = None
